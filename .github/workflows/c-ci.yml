@@ -1,0 +1,20 @@
+name: C Module CI
+on: [push, pull_request]
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install Compiler
+        run: sudo apt-get update && sudo apt-get install -y gcc cmake make
+
+      - name: Configure CMake
+        run: cmake -S . -B build
+
+      - name: Build Project
+        run: cmake --build build
+
+      - name: Execute Tests
+        run: cd build && ctest --output-on-failure
